@@ -77,40 +77,40 @@
     
     .box-body { 
       padding: 20px; 
-      font-size: 0.9rem; 
-      line-height: 1.6; 
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    /* Stile per i post del blog */
-    .blog-post {
-      border-bottom: 2px dashed #111111;
-      padding-bottom: 16px;
-      margin-bottom: 16px;
+    /* Stile per le card-post */
+    .blog-card-link {
+      display: block;
+      text-decoration: none;
+      transition: transform 0.15s ease;
     }
 
-    .blog-post:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
+    .blog-card-link:hover {
+      transform: translateY(-3px);
     }
 
-    .blog-date {
+    .blog-card-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      filter: drop-shadow(4px 4px 0px #111111);
+      border: 2px solid #111111;
+    }
+
+    .blog-date-tag {
       font-size: 0.75rem;
-      font-weight: 700;
-      color: #666;
-      margin-bottom: 4px;
-      display: inline-block;
-      background: #f0f0f3;
-      padding: 2px 8px;
-      border-radius: 6px;
-      border: 1px solid #111;
-    }
-
-    .blog-title {
-      font-size: 1.1rem;
       font-weight: 800;
-      color: #111111;
-      margin-bottom: 8px;
+      background: #111;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 6px;
     }
   </style>
 </head>
@@ -120,28 +120,30 @@
 
     <!-- Header con titolo e tasto Home per tornare indietro nella stessa scheda -->
     <header class="top-banner">
-      <h1>BLOG</h1>
-      <a href="https://seea-star.github.io/Cosmic-S-Home/" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
+      <h1>BLOG / GAMES</h1>
+      <a href="index.html" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
     </header>
 
-    <!-- Sezione Post -->
+    <!-- Sezione Post aimmagini (le tue Pocket/Banner Card) -->
     <div class="box">
-      <div class="box-header-accent"><span>thoughts & updates</span><span>✐ᝰ</span></div>
+      <div class="box-header-accent"><span>game reviews & logs</span><span>✐ᝰ</span></div>
       <div class="box-body">
         
-        <!-- Post 1 (Esempio) -->
-        <article class="blog-post">
-          <span class="blog-date">June 7, 2026</span>
-          <h2 class="blog-title">Welcome to my new blog space! ✨</h2>
-          <p>Hi everyone! I finally set up this blog section on my site. Here I will share my thoughts, small updates about my web development journey, and random stuff about the things I love. Stay tuned!</p>
-        </article>
+        <!-- Post 1: Cliccandoci vai alla pagina del gioco 1 -->
+        <div>
+          <span class="blog-date-tag">June 7, 2026</span>
+          <a href="gioco1.html" class="blog-card-link">
+            <img src="tuia-card-gioco1.png" alt="Card Gioco 1" class="blog-card-img">
+          </a>
+        </div>
 
-        <!-- Post 2 (Esempio) -->
-        <article class="blog-post" style="margin-top: 16px;">
-          <span class="blog-date">June 1, 2026</span>
-          <h2 class="blog-title">Working on Cosmic-S</h2>
-          <p>Building this website from scratch has been so much fun. I love adding little retro details like the receipt menu and the mini custom player. Let me know what you think via the guestbook or chat box!</p>
-        </article>
+        <!-- Post 2: Cliccandoci vai alla pagina del gioco 2 -->
+        <div>
+          <span class="blog-date-tag">June 1, 2026</span>
+          <a href="gioco2.html" class="blog-card-link">
+            <img src="tuia-card-gioco2.png" alt="Card Gioco 2" class="blog-card-img">
+          </a>
+        </div>
 
       </div>
     </div>
@@ -150,4 +152,3 @@
 
 </body>
 </html>
-
