@@ -75,7 +75,7 @@
       color: #111111;
     }
     
-    /* Area scrollabile */
+    /* Scrollable area */
     .blog-scroll-area { 
       padding: 20px; 
       max-height: 550px; 
@@ -85,7 +85,7 @@
       gap: 16px;
     }
 
-    /* Stile barra di scorrimento */
+    /* Scrollbar style */
     .blog-scroll-area::-webkit-scrollbar {
       width: 8px;
     }
@@ -106,7 +106,7 @@
       width: 100%;
     }
 
-    /* Tasto Data cliccabile */
+    /* Clickable Date Button */
     .blog-date-btn {
       font-size: 0.8rem;
       font-weight: 800;
@@ -132,7 +132,7 @@
       box-shadow: 1px 1px 0px #444;
     }
 
-    /* Immagine della carta (inizialmente nascosta) */
+    /* Blog card container (initially hidden) */
     .blog-card-container {
       display: none;
       width: 100%;
@@ -143,14 +143,15 @@
       display: block;
     }
 
+    /* Blog card image without extra borders/shadows */
     .blog-card-img {
       max-width: 100%;
       width: 100%;
       height: auto;
       display: block;
-      border-radius: 16px;
-      filter: drop-shadow(4px 4px 0px #111111);
-      border: 2px solid #111111;
+      border: none;
+      box-shadow: none;
+      filter: none;
       margin-bottom: 10px;
     }
 
@@ -164,18 +165,18 @@
 
   <div class="site-wrapper">
 
-    <!-- Header con tasto Home -->
+    <!-- Header with Home button -->
     <header class="top-banner">
       <h1>BLOG</h1>
       <a href="https://seea-star.github.io/Cosmic-S-Home/" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
     </header>
 
-    <!-- Sezione con scorrimento -->
+    <!-- Scrollable section -->
     <div class="box">
       <div class="box-header-accent"><span>posts</span><span>✐ᝰ</span></div>
       <div class="blog-scroll-area">
         
-        <!-- POST 2 (Il più recente - In cima) -->
+        <!-- POST 2 (Most recent - On top) -->
         <div class="blog-item">
           <button class="blog-date-btn" onclick="toggleCard('card-2')">August 27, 2026</button>
           <div id="card-2" class="blog-card-container">
@@ -183,7 +184,7 @@
           </div>
         </div>
 
-        <!-- POST 1 (Il più vecchio) -->
+        <!-- POST 1 (Older) -->
         <div class="blog-item">
           <button class="blog-date-btn" onclick="toggleCard('card-1')">August 26, 2026</button>
           <div id="card-1" class="blog-card-container">
@@ -197,16 +198,16 @@
   </div>
 
   <script>
-    // Funzione per mostrare/nascondere la carta quando si clicca sulla data
+    // Function to show/hide the card when clicking the date
     function toggleCard(cardId) {
       const cardContainer = document.getElementById(cardId);
       const isAlreadyOpen = cardContainer.classList.contains('active');
 
-      // Chiude tutte le altre carte aperte prima (opzionale, ma pulito)
+      // Close all other open cards first
       const allCards = document.querySelectorAll('.blog-card-container');
       allCards.forEach(card => card.classList.remove('active'));
 
-      // Se non era già aperta, la apre
+      // If it wasn't already open, open it
       if (!isAlreadyOpen) {
         cardContainer.classList.add('active');
       }
