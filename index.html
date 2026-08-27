@@ -75,25 +75,38 @@
       color: #111111;
     }
     
-    .box-body { 
+    /* Area scrollabile per i post */
+    .blog-scroll-area { 
       padding: 20px; 
+      max-height: 550px; 
+      overflow-y: auto; 
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
 
-    /* Stile per le card-post */
-    .blog-card-link {
-      display: block;
-      text-decoration: none;
-      transition: transform 0.15s ease;
+    /* Stile barra di scorrimento */
+    .blog-scroll-area::-webkit-scrollbar {
+      width: 8px;
+    }
+    .blog-scroll-area::-webkit-scrollbar-track {
+      background: #f0f0f3;
+      border-radius: 4px;
+    }
+    .blog-scroll-area::-webkit-scrollbar-thumb {
+      background: #111111;
+      border-radius: 4px;
     }
 
-    .blog-card-link:hover {
-      transform: translateY(-3px);
+    .blog-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
     .blog-card-img {
+      max-width: 100%;
       width: 100%;
       height: auto;
       display: block;
@@ -107,10 +120,8 @@
       font-weight: 800;
       background: #111;
       color: #fff;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 8px;
-      display: inline-block;
-      margin-bottom: 6px;
     }
   </style>
 </head>
@@ -118,31 +129,27 @@
 
   <div class="site-wrapper">
 
-    <!-- Header con titolo e tasto Home per tornare indietro nella stessa scheda -->
+    <!-- Header con tasto Home -->
     <header class="top-banner">
-      <h1>BLOG / GAMES</h1>
+      <h1>BLOG</h1>
       <a href="index.html" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
     </header>
 
-    <!-- Sezione Post aimmagini (le tue Pocket/Banner Card) -->
+    <!-- Sezione con scorrimento -->
     <div class="box">
-      <div class="box-header-accent"><span>game reviews & logs</span><span>✐ᝰ</span></div>
-      <div class="box-body">
+      <div class="box-header-accent"><span>thoughts & updates</span><span>✐ᝰ</span></div>
+      <div class="blog-scroll-area">
         
-        <!-- Post 1: Cliccandoci vai alla pagina del gioco 1 -->
-        <div>
-          <span class="blog-date-tag">June 7, 2026</span>
-          <a href="gioco1.html" class="blog-card-link">
-            <img src="tuia-card-gioco1.png" alt="Card Gioco 1" class="blog-card-img">
-          </a>
+        <!-- Post 1 (Esempio) -->
+        <div class="blog-item">
+          <span class="blog-date-tag">August 27, 2026</span>
+          <img src="post-01.png" alt="Blog Post 1" class="blog-card-img">
         </div>
 
-        <!-- Post 2: Cliccandoci vai alla pagina del gioco 2 -->
-        <div>
-          <span class="blog-date-tag">June 1, 2026</span>
-          <a href="gioco2.html" class="blog-card-link">
-            <img src="tuia-card-gioco2.png" alt="Card Gioco 2" class="blog-card-img">
-          </a>
+        <!-- Post 2 (Esempio) -->
+        <div class="blog-item">
+          <span class="blog-date-tag">August 26, 2026</span>
+          <img src="post-02.png" alt="Blog Post 2" class="blog-card-img">
         </div>
 
       </div>
