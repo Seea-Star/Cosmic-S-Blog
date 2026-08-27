@@ -75,14 +75,14 @@
       color: #111111;
     }
     
-    /* Area scrollabile per i post */
+    /* Area scrollabile */
     .blog-scroll-area { 
       padding: 20px; 
       max-height: 550px; 
       overflow-y: auto; 
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
     }
 
     /* Stile barra di scorrimento */
@@ -102,7 +102,45 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      width: 100%;
+    }
+
+    /* Tasto Data cliccabile */
+    .blog-date-btn {
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: #111;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 2px solid #111;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      box-shadow: 3px 3px 0px #444;
+      transition: transform 0.1s ease, background 0.1s ease;
+    }
+
+    .blog-date-btn:hover {
+      background: #333;
+      transform: translateY(-1px);
+    }
+
+    .blog-date-btn:active {
+      transform: translateY(1px);
+      box-shadow: 1px 1px 0px #444;
+    }
+
+    /* Immagine della carta (inizialmente nascosta) */
+    .blog-card-container {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .blog-card-container.active {
+      display: block;
     }
 
     .blog-card-img {
@@ -113,15 +151,12 @@
       border-radius: 16px;
       filter: drop-shadow(4px 4px 0px #111111);
       border: 2px solid #111111;
+      margin-bottom: 10px;
     }
 
-    .blog-date-tag {
-      font-size: 0.75rem;
-      font-weight: 800;
-      background: #111;
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 8px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -129,33 +164,54 @@
 
   <div class="site-wrapper">
 
-    <!-- Header con tasto Home che si apre nella stessa scheda -->
+    <!-- Header con tasto Home -->
     <header class="top-banner">
       <h1>BLOG</h1>
       <a href="https://seea-star.github.io/Cosmic-S-Home/" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
     </header>
 
-    <!-- Sezione con scorrimento (I più nuovi vanno SEMPRE messi in cima qui sotto) -->
+    <!-- Sezione con scorrimento -->
     <div class="box">
       <div class="box-header-accent"><span>thoughts & updates</span><span>✐ᝰ</span></div>
       <div class="blog-scroll-area">
         
-        <!-- Post più recente (Aggiungi i nuovi qui sopra) -->
+        <!-- POST 2 (Il più recente - In cima) -->
         <div class="blog-item">
-          <span class="blog-date-tag">August 27, 2026</span>
-          <img src="post-02.png" alt="Blog Post 2" class="blog-card-img">
+          <button class="blog-date-btn" onclick="toggleCard('card-2')">📅 August 27, 2026</button>
+          <div id="card-2" class="blog-card-container">
+            <img src="post-02.png" alt="Blog Post 2" class="blog-card-img">
+          </div>
         </div>
 
-        <!-- Post più vecchio -->
+        <!-- POST 1 (Il più vecchio) -->
         <div class="blog-item">
-          <span class="blog-date-tag">August 26, 2026</span>
-          <img src="post-01.png" alt="Blog Post 1" class="blog-card-img">
+          <button class="blog-date-btn" onclick="toggleCard('card-1')">📅 August 26, 2026</button>
+          <div id="card-1" class="blog-card-container">
+            <img src="post-01.png" alt="Blog Post 1" class="blog-card-img">
+          </div>
         </div>
 
       </div>
     </div>
 
   </div>
+
+  <script>
+    // Funzione per mostrare/nascondere la carta quando si clicca sulla data
+    function toggleCard(cardId) {
+      const cardContainer = document.getElementById(cardId);
+      const isAlreadyOpen = cardContainer.classList.contains('active');
+
+      // Chiude tutte le altre carte aperte prima (opzionale, ma pulito)
+      const allCards = document.querySelectorAll('.blog-card-container');
+      allCards.forEach(card => card.classList.remove('active'));
+
+      // Se non era già aperta, la apre
+      if (!isAlreadyOpen) {
+        cardContainer.classList.add('active');
+      }
+    }
+  </script>
 
 </body>
 </html>
