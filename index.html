@@ -26,7 +26,7 @@
     }
 
     .site-wrapper {
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -51,6 +51,38 @@
       color: #ffffff;
     }
     
+    /* Layout split per desktop */
+    .blog-layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .blog-sidebar {
+      width: 300px;
+      flex-shrink: 0;
+    }
+
+    .blog-content-pane {
+      flex-grow: 1;
+      background: #ffffff;
+      border: 2px solid #111111;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 4px 4px 0px #111111;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .blog-placeholder-text {
+      color: #666;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
     /* Scrollable area */
     .blog-scroll-area { 
       padding: 10px 0; 
@@ -124,16 +156,43 @@
       max-width: 100%;
       width: 100%;
       height: auto;
+      max-height: 500px;
+      object-fit: contain;
       display: block;
       border: none;
       box-shadow: none;
       filter: none;
-      margin-bottom: 10px;
+      margin: 0 auto;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-5px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Versione Mobile: torna come prima */
+    @media (max-width: 768px) {
+      .blog-layout {
+        flex-direction: column;
+      }
+      .blog-sidebar {
+        width: 100%;
+      }
+      .blog-content-pane {
+        display: none;
+        padding: 10px;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        min-height: auto;
+      }
+      /* Nel telefono il contenitore del post torna sotto al suo bottone */
+      .blog-item .blog-card-container {
+        margin-top: 5px;
+      }
+      .blog-item .blog-card-container.active {
+        display: block;
+      }
     }
   </style>
 </head>
@@ -141,18 +200,33 @@
 
   <div class="site-wrapper">
 
+    <!-- Header with Home button -->
     <header class="top-banner">
       <h1>BLOG</h1>
       <a href="https://seea-star.github.io/Cosmic-S-Home/" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
     </header>
 
-    <div class="blog-scroll-area">
+    <!-- Layout diviso per Desktop, verticale per Mobile -->
+    <div class="blog-layout">
       
-      <div class="blog-item">
-        <button class="blog-date-btn" onclick="toggleCard('card-1')">August 28, 2026</button>
-        <div id="card-1" class="blog-card-container">
-          <img src="blog-01.png" alt="Blog Post 1" class="blog-card-img">
+      <!-- Sidebar con le date -->
+      <div class="blog-sidebar">
+        <div class="blog-scroll-area">
+          
+          <!-- POST 1 (Today) -->
+          <div class="blog-item">
+            <button class="blog-date-btn" onclick="toggleCard('card-1')">August 28, 2026</button>
+            <div id="card-1" class="blog-card-container">
+              <img src="blog-01.png" alt="Blog Post 1" class="blog-card-img">
+            </div>
+          </div>
+
         </div>
+      </div>
+
+      <!-- Finestra a destra per mostrare l'immagine su Desktop -->
+      <div class="blog-content-pane" id="content-pane">
+        <div class="blog-placeholder-text">Select a date to read the post ✨</div>
       </div>
 
     </div>
@@ -160,18 +234,34 @@
   </div>
 
   <script>
-    // Function to show/hide the card when clicking the date
+    // Function to show/hide the card and handle desktop split view
     function toggleCard(cardId) {
       const cardContainer = document.getElementById(cardId);
+      const contentPane = document.getElementById('content-pane');
+      const isMobile = window.innerWidth <= 768;
       const isAlreadyOpen = cardContainer.classList.contains('active');
 
-      // Close all other open cards first
+      // Close all cards first
       const allCards = document.querySelectorAll('.blog-card-container');
       allCards.forEach(card => card.classList.remove('active'));
 
-      // If it wasn't already open, open it
-      if (!isAlreadyOpen) {
-        cardContainer.classList.add('active');
+      if (isMobile) {
+        // Comportamento originale per telefono
+        if (!isAlreadyOpen) {
+          cardContainer.classList.add('active');
+        }
+      } else {
+        // Comportamento a due colonne per computer
+        if (!isAlreadyOpen) {
+          cardContainer.classList.add('active');
+          // Copia l'immagine del post dentro il pannello di destra
+          contentPane.innerHTML = '';
+          contentPane.appendChild(cardContainer.cloneNode(true));
+          contentPane.querySelector('.blog-card-container').classList.add('active');
+        } else {
+          // Se si clicca di nuovo sulla stessa data, pulisce il pannello
+          contentPane.innerHTML = '<div class="blog-placeholder-text">Select a date to read the post ✨</div>';
+        }
       }
     }
   </script>
