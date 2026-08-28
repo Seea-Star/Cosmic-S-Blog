@@ -63,7 +63,7 @@
       flex-shrink: 0;
     }
 
-    /* Pannello di destra pulito senza bordi o sfondi */
+    /* Pannello di destra pulito */
     .blog-content-pane {
       flex-grow: 1;
       display: flex;
@@ -89,7 +89,6 @@
       gap: 16px;
     }
 
-    /* Scrollbar style */
     .blog-scroll-area::-webkit-scrollbar {
       width: 8px;
     }
@@ -136,7 +135,7 @@
       box-shadow: 1px 1px 0px #444;
     }
 
-    /* Blog card image (comune per mobile e desktop) */
+    /* Blog card image */
     .blog-card-img {
       max-width: 100%;
       width: 100%;
@@ -161,7 +160,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Versione Mobile: torna verticale */
+    /* Versione Mobile reale (schermi piccoli) */
     @media (max-width: 768px) {
       .blog-layout {
         flex-direction: column;
@@ -189,17 +188,16 @@
       <a href="https://seea-star.github.io/Cosmic-S-Home/" style="background:#F3EEDA; color:#111; border:2px solid #111; padding:8px 14px; border-radius:12px; font-weight:800; font-size:0.75rem; text-decoration:none; box-shadow:2px 2px 0px #111;">← HOME</a>
     </header>
 
-    <!-- Layout diviso per Desktop, verticale per Mobile -->
+    <!-- Layout -->
     <div class="blog-layout">
       
       <!-- Sidebar con le date -->
       <div class="blog-sidebar">
         <div class="blog-scroll-area">
           
-          <!-- POST 1 (Today) -->
           <div class="blog-item">
-            <button class="blog-date-btn" onclick="toggleCard('post-01.png')">August 28, 2026</button>
-            <!-- Questo container appare SOLO da mobile sotto al rispettivo pulsante -->
+            <button class="blog-date-btn" onclick="toggleCard('blog-01.png')">August 28, 2026</button>
+            <!-- Contenitore mobile -->
             <div class="mobile-card-container" id="mobile-card-1">
               <img src="blog-01.png" alt="Blog Post 1" class="blog-card-img">
             </div>
@@ -208,7 +206,7 @@
         </div>
       </div>
 
-      <!-- Pannello di destra pulito per mostrare SOLO l'immagine su Desktop -->
+      <!-- Pannello di destra per Desktop -->
       <div class="blog-content-pane" id="content-pane">
         <div class="blog-placeholder-text">Select a date to read the post ✨</div>
       </div>
@@ -219,20 +217,21 @@
 
   <script>
     function toggleCard(imageSrc) {
-      const isMobile = window.innerWidth <= 768;
       const contentPane = document.getElementById('content-pane');
       const mobileContainer = document.getElementById('mobile-card-1');
+      const isDesktopMode = window.getComputedStyle(contentPane).display !== 'none';
+      
       const isAlreadyOpenMobile = mobileContainer.classList.contains('active');
       const isAlreadyOpenDesktop = contentPane.innerHTML.includes(imageSrc);
 
-      if (isMobile) {
-        // Su mobile: chiude o apre sotto al pulsante
+      if (!isDesktopMode) {
+        // Logica telefono
         document.querySelectorAll('.mobile-card-container').forEach(c => c.classList.remove('active'));
         if (!isAlreadyOpenMobile) {
           mobileContainer.classList.add('active');
         }
       } else {
-        // Su computer: mostra l'immagine ESCLUSIVAMENTE a destra, senza duplicarla sotto
+        // Logica desktop
         if (!isAlreadyOpenDesktop) {
           contentPane.innerHTML = `<img src="${imageSrc}" alt="Blog Post" class="blog-card-img" style="animation: fadeIn 0.2s ease-in-out;">`;
         } else {
