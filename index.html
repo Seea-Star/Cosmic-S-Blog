@@ -136,18 +136,7 @@
       box-shadow: 1px 1px 0px #444;
     }
 
-    /* Blog card container (visibile solo su mobile dentro la lista) */
-    .blog-card-container {
-      display: none;
-      width: 100%;
-      animation: fadeIn 0.2s ease-in-out;
-    }
-
-    .blog-card-container.active {
-      display: block;
-    }
-
-    /* Blog card image */
+    /* Blog card image (comune per mobile e desktop) */
     .blog-card-img {
       max-width: 100%;
       width: 100%;
@@ -158,6 +147,13 @@
       border: none;
       box-shadow: none;
       filter: none;
+    }
+
+    /* Contenitore immagine SOLO per mobile */
+    .mobile-card-container {
+      display: none;
+      width: 100%;
+      margin-top: 5px;
     }
 
     @keyframes fadeIn {
@@ -176,9 +172,9 @@
       .blog-content-pane {
         display: none !important;
       }
-      .blog-item .blog-card-container.active {
+      .mobile-card-container.active {
         display: block;
-        margin-top: 5px;
+        animation: fadeIn 0.2s ease-in-out;
       }
     }
   </style>
@@ -202,9 +198,9 @@
           
           <!-- POST 1 (Today) -->
           <div class="blog-item">
-            <button class="blog-date-btn" onclick="toggleCard('card-1')">August 28, 2026</button>
-            <!-- Questo container serve SOLO da mobile -->
-            <div id="card-1" class="blog-card-container">
+            <button class="blog-date-btn" onclick="toggleCard('post-01.png')">August 28, 2026</button>
+            <!-- Questo container appare SOLO da mobile sotto al rispettivo pulsante -->
+            <div class="mobile-card-container" id="mobile-card-1">
               <img src="blog-01.png" alt="Blog Post 1" class="blog-card-img">
             </div>
           </div>
@@ -212,7 +208,7 @@
         </div>
       </div>
 
-      <!-- Pannello di destra pulito per mostrare solo l'immagine su Desktop -->
+      <!-- Pannello di destra pulito per mostrare SOLO l'immagine su Desktop -->
       <div class="blog-content-pane" id="content-pane">
         <div class="blog-placeholder-text">Select a date to read the post ✨</div>
       </div>
@@ -222,24 +218,23 @@
   </div>
 
   <script>
-    function toggleCard(cardId) {
+    function toggleCard(imageSrc) {
       const isMobile = window.innerWidth <= 768;
       const contentPane = document.getElementById('content-pane');
-      const cardContainer = document.getElementById(cardId);
-      const isAlreadyOpen = cardContainer.classList.contains('active');
-
-      // Pulisce tutto prima di aprire
-      document.querySelectorAll('.blog-card-container').forEach(card => card.classList.remove('active'));
+      const mobileContainer = document.getElementById('mobile-card-1');
+      const isAlreadyOpenMobile = mobileContainer.classList.contains('active');
+      const isAlreadyOpenDesktop = contentPane.innerHTML.includes(imageSrc);
 
       if (isMobile) {
-        if (!isAlreadyOpen) {
-          cardContainer.classList.add('active');
+        // Su mobile: chiude o apre sotto al pulsante
+        document.querySelectorAll('.mobile-card-container').forEach(c => c.classList.remove('active'));
+        if (!isAlreadyOpenMobile) {
+          mobileContainer.classList.add('active');
         }
       } else {
-        // Su computer mostra solo l'immagine pulita a destra senza doppi cloni o rettangoli
-        if (!isAlreadyOpen) {
-          cardContainer.classList.add('active');
-          contentPane.innerHTML = `<img src="post-01.png" alt="Blog Post 1" class="blog-card-img">`;
+        // Su computer: mostra l'immagine ESCLUSIVAMENTE a destra, senza duplicarla sotto
+        if (!isAlreadyOpenDesktop) {
+          contentPane.innerHTML = `<img src="${imageSrc}" alt="Blog Post" class="blog-card-img" style="animation: fadeIn 0.2s ease-in-out;">`;
         } else {
           contentPane.innerHTML = '<div class="blog-placeholder-text">Select a date to read the post ✨</div>';
         }
