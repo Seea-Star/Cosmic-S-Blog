@@ -63,24 +63,20 @@
       flex-shrink: 0;
     }
 
+    /* Pannello di destra pulito senza bordi o sfondi */
     .blog-content-pane {
       flex-grow: 1;
-      background: #ffffff;
-      border: 2px solid #111111;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 4px 4px 0px #111111;
-      min-height: 400px;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-start;
+      justify-content: flex-start;
+      min-height: 200px;
     }
 
     .blog-placeholder-text {
       color: #666;
       font-weight: 700;
       font-size: 0.9rem;
-      text-align: center;
+      margin-top: 10px;
     }
 
     /* Scrollable area */
@@ -140,7 +136,7 @@
       box-shadow: 1px 1px 0px #444;
     }
 
-    /* Blog card container (initially hidden) */
+    /* Blog card container (visibile solo su mobile dentro la lista) */
     .blog-card-container {
       display: none;
       width: 100%;
@@ -151,18 +147,17 @@
       display: block;
     }
 
-    /* Blog card image without extra borders/shadows */
+    /* Blog card image */
     .blog-card-img {
       max-width: 100%;
       width: 100%;
       height: auto;
-      max-height: 500px;
+      max-height: 550px;
       object-fit: contain;
       display: block;
       border: none;
       box-shadow: none;
       filter: none;
-      margin: 0 auto;
     }
 
     @keyframes fadeIn {
@@ -170,7 +165,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Versione Mobile: torna come prima */
+    /* Versione Mobile: torna verticale */
     @media (max-width: 768px) {
       .blog-layout {
         flex-direction: column;
@@ -179,19 +174,11 @@
         width: 100%;
       }
       .blog-content-pane {
-        display: none;
-        padding: 10px;
-        border: none;
-        background: transparent;
-        box-shadow: none;
-        min-height: auto;
-      }
-      /* Nel telefono il contenitore del post torna sotto al suo bottone */
-      .blog-item .blog-card-container {
-        margin-top: 5px;
+        display: none !important;
       }
       .blog-item .blog-card-container.active {
         display: block;
+        margin-top: 5px;
       }
     }
   </style>
@@ -216,6 +203,7 @@
           <!-- POST 1 (Today) -->
           <div class="blog-item">
             <button class="blog-date-btn" onclick="toggleCard('card-1')">August 28, 2026</button>
+            <!-- Questo container serve SOLO da mobile -->
             <div id="card-1" class="blog-card-container">
               <img src="blog-01.png" alt="Blog Post 1" class="blog-card-img">
             </div>
@@ -224,7 +212,7 @@
         </div>
       </div>
 
-      <!-- Finestra a destra per mostrare l'immagine su Desktop -->
+      <!-- Pannello di destra pulito per mostrare solo l'immagine su Desktop -->
       <div class="blog-content-pane" id="content-pane">
         <div class="blog-placeholder-text">Select a date to read the post ✨</div>
       </div>
@@ -234,32 +222,25 @@
   </div>
 
   <script>
-    // Function to show/hide the card and handle desktop split view
     function toggleCard(cardId) {
-      const cardContainer = document.getElementById(cardId);
-      const contentPane = document.getElementById('content-pane');
       const isMobile = window.innerWidth <= 768;
+      const contentPane = document.getElementById('content-pane');
+      const cardContainer = document.getElementById(cardId);
       const isAlreadyOpen = cardContainer.classList.contains('active');
 
-      // Close all cards first
-      const allCards = document.querySelectorAll('.blog-card-container');
-      allCards.forEach(card => card.classList.remove('active'));
+      // Pulisce tutto prima di aprire
+      document.querySelectorAll('.blog-card-container').forEach(card => card.classList.remove('active'));
 
       if (isMobile) {
-        // Comportamento originale per telefono
         if (!isAlreadyOpen) {
           cardContainer.classList.add('active');
         }
       } else {
-        // Comportamento a due colonne per computer
+        // Su computer mostra solo l'immagine pulita a destra senza doppi cloni o rettangoli
         if (!isAlreadyOpen) {
           cardContainer.classList.add('active');
-          // Copia l'immagine del post dentro il pannello di destra
-          contentPane.innerHTML = '';
-          contentPane.appendChild(cardContainer.cloneNode(true));
-          contentPane.querySelector('.blog-card-container').classList.add('active');
+          contentPane.innerHTML = `<img src="post-01.png" alt="Blog Post 1" class="blog-card-img">`;
         } else {
-          // Se si clicca di nuovo sulla stessa data, pulisce il pannello
           contentPane.innerHTML = '<div class="blog-placeholder-text">Select a date to read the post ✨</div>';
         }
       }
